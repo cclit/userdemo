@@ -1,23 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.122.0">
-	<meta charset="UTF-8">
-	
-	<c:set var="contextRoot" value="${pageContext.request.contextPath}" />
-	<title>Index</title>
-	
-	
-	<link href="${contextRoot}/css/bootstrap.min.css" rel="stylesheet">
-	
-	
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<!DOCTYPE>
+<c:set var="contextRoot" value="${pageContext.request.contextPath}" />
+<html  html data-bs-theme="auto">
+<head ><script src="${contextRoot}/js/color-modes.js"></script>
+<meta charset="UTF-8">
+<title>Register Page</title>
+<link href="${contextRoot}/css/bootstrap.min.css" rel="stylesheet">
+
 	<style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -95,14 +87,18 @@
       .bd-mode-toggle .dropdown-menu .active .bi {
         display: block !important;
       }
+      
+      .errorMsg {
+      	color : red;
+      }
     </style>
-	
-	<!-- Custom styles for this template -->
-    <link href="${contextRoot}/css/cover.css" rel="stylesheet">
-	
+    
+    <!-- Custom styles for this template -->
+    <link href="${contextRoot}/css/sign-in.css" rel="stylesheet">
+
 </head>
-<body class="d-flex h-100 text-center text-bg-dark">
-	
+<body class="d-flex align-items-center py-4 bg-body-tertiary">
+
 	<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
       <symbol id="check2" viewBox="0 0 16 16">
         <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
@@ -118,7 +114,7 @@
         <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
       </symbol>
     </svg>
-    
+
     <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
       <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
               id="bd-theme"
@@ -155,34 +151,78 @@
     </div>
 
     
-	<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-	  <header class="mb-auto">
-	    <div>
-	      <h3 class="float-md-start mb-0">Cover</h3>
-	      <nav class="nav nav-masthead justify-content-center float-md-end">
-	        <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="#">Home</a>
-	        <a class="nav-link fw-bold py-1 px-0" href="#">Member Center</a>
-	        <a class="nav-link fw-bold py-1 px-0" href="${contextRoot}/user/login">Login</a>
-	      </nav>
+	<main class="form-signin w-100 m-auto">
+	  <form:form modelAttribute="userRegisterForm" action="${contextRoot}/user/register" method="post" >
+	    <img class="mb-4" src="${contextRoot}/picture/bootstrap-logo.svg" alt="" width="72" height="57">
+	    <h1 class="h3 mb-3 fw-normal">Please Fill in the Register information</h1>
+	
+		<form:errors path="email" class="errorMsg" />
+	    <div class="form-floating">
+	      <form:input path="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
+	      <label for="floatingInput">Email address</label>
 	    </div>
-	  </header>
-	
-	  <main class="px-3">
-	    <h1>Cover your page.</h1>
-	    <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
-	    <p class="lead">
-	      <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Learn more</a>
-	    </p>
-	  </main>
-	
-	  <footer class="mt-auto text-white-50">
-	    <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
-	  </footer>
-	
-	</div>
-	
+	    
+	    <label class="">(6-12位數、英數大小寫混合)</label><br>
+	    <form:errors path="pwd" class="errorMsg" />
+	    <div class="form-floating">
+	      <form:input path="pwd" type="password" class="form-control" id="floatingPassword" placeholder="Password" />
+	      <label for="floatingPassword">Password</label>
+	    </div>
+	    
+	    <form:errors path="pwdCheck" class="errorMsg" />
+	    <div class="form-floating">
+	      <form:input path="pwdCheck" type="password" class="form-control" id="floatingPassword" placeholder="Password" />
+	      <label for="floatingPassword">Password Check</label>
+	    </div>
+	    
+	    <form:errors path="lastName" class="errorMsg" />
+	    <div class="form-floating">
+	      <form:input path="lastName" type="text" class="form-control" id="floatingPassword" placeholder="Password" />
+	      <label for="floatingPassword">Last Name (姓氏)</label>
+	    </div>
+	    
+	    
+	    <form:errors path="firstName" class="errorMsg" />
+	    <div class="form-floating">
+	      <form:input path="firstName" type="text" class="form-control" id="floatingPassword" placeholder="Password" />
+	      <label for="floatingPassword">First Name (名字)</label>
+	    </div>
+	    
+	    
+	    <form:errors path="nickName" class="errorMsg" />
+	    <div class="form-floating">
+	      <form:input path="nickName" type="text" class="form-control" id="floatingPassword" placeholder="Password" />
+	      <label for="floatingPassword">Nick Name (暱稱)</label>
+	    </div>
+	    
+	    
+	    <div>
+	      <label for="floatingPassword">Gender 性別</label><br>
+	      <form:radiobutton path="gender" value="Male" label="男性" />
+	  	  <form:radiobutton path="gender" value="Female" label="女性" />
+	  	  <form:radiobutton path="gender" value="Other" label="其他" />
+	      <br>
+	    </div>
+	    
+	    <div>
+      	  <label for="floatingPassword">是否有工作經驗 ? (若選有，請於下方請填入時間:整數不超過兩位、小數不超過一位的數字) </label>
+	      <form:errors path="workExperienceCheck" class="errorMsg" />
+      	  <br>
+		  <form:radiobutton path="workExperienceCheck" value="1" label="YES" />
+		  <form:radiobutton path="workExperienceCheck" value="0" label="NO" />
+    	</div>
+	    
+		<form:errors path="workExperience" class="errorMsg"/>
+    	  <div class="form-floating">
+          <form:input path="workExperience" type="text" class="form-control" id="floatingPassword" />
+          <label for="floatingPassword">Work Experience 工作經歷(年)</label> <br>
+        </div>
 
-	<script src="${contextRoot}/js/bootstrap.bundle.min.js" ></script>
-    
+	    <button class="btn btn-primary w-100 py-2" type="submit">Register</button>
+	    <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
+	  </form:form>
+	</main>
+	<script src="${contextRoot}/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

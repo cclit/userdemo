@@ -51,6 +51,11 @@ public class User {
 	@Column(name = "UPDATE_TIME")
 	private Date updateTime;
 	
+	@Column(name = "WORK_EXPERIENCE_CHECK")
+	private Boolean workExperienceCheck;
+	
+	@Column(name = "WORK_EXPERIENCE", precision = 3)
+	private Double workExperience;
 
 	public Long getUserId() {
 		return userId;
@@ -108,7 +113,38 @@ public class User {
 		this.email = email;
 	}
 
-	
-	
+	public Date getRegisterTime() {
+		return registerTime;
+	}
 
+	public void setRegisterTime(Date registerTime) {
+		this.registerTime = registerTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public Boolean getWorkExperienceCheck() {
+		return workExperienceCheck;
+	}
+
+	public void setWorkExperienceCheck(Boolean workExperienceCheck) {
+		this.workExperienceCheck = workExperienceCheck;
+	}
+
+	public Double getWorkExperience() {
+		return workExperience;
+	}
+
+	public void setWorkExperience(Double workExperience) {
+		this.workExperience = workExperience;
+	}
+
+	
+	
 }
