@@ -25,6 +25,9 @@ public class User {
 	@Column(name = "UID")
 	private Long userId;
 	
+	@Column(name = "EMAIL", length = 200)
+	private String email;
+	
 	@Column(name = "PWD", length = 50)
 	private String pwd;
 	
@@ -39,9 +42,6 @@ public class User {
 	
 	@Column(name = "GENDER", length = 8)
 	private String gender;
-	
-	@Column(name = "EMAIL", length = 200)
-	private String email;
 	
 	@CreatedDate
 	@Column(name = "REGISTER_TIME", updatable = false)

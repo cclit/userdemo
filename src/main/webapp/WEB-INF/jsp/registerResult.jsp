@@ -7,7 +7,7 @@
 <html  html data-bs-theme="auto">
 <head ><script src="${contextRoot}/js/color-modes.js"></script>
 <meta charset="UTF-8">
-<title>Register Page</title>
+<title>Login Page</title>
 <link href="${contextRoot}/css/bootstrap.min.css" rel="stylesheet">
 
 	<style>
@@ -152,77 +152,19 @@
 
     
 	<main class="form-signin w-100 m-auto">
-	  <form:form modelAttribute="userRegisterForm" action="${contextRoot}/user/register" method="post" >
+	  <form:form modelAttribute="userLoginForm" action="#" method="post" >
 	    <img class="mb-4" src="${contextRoot}/picture/bootstrap-logo.svg" alt="" width="72" height="57">
-	    <h1 class="h3 mb-3 fw-normal">Please Fill in the Register information</h1>
-		
-		<c:if test="${accountAreadyExist != null }">
-			 <label class="errorMsg">${accountAreadyExist}</label>
-		</c:if>
+	    <h1 class="h3 mb-3 fw-normal">註冊結果</h1>
 	
-		<form:errors path="email" class="errorMsg" />
-	    <div class="form-floating">
-	      <form:input path="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
-	      <label for="floatingInput">Email address</label>
-	    </div>
-	    
-	    <label class="">(6-12位數、英數大小寫混合)</label><br>
-	    <form:errors path="pwd" class="errorMsg" />
-	    <div class="form-floating">
-	      <form:input path="pwd" type="password" class="form-control" id="floatingPassword" placeholder="Password" />
-	      <label for="floatingPassword">Password</label>
-	    </div>
-	    
-	    <form:errors path="pwdCheck" class="errorMsg" />
-	    <div class="form-floating">
-	      <form:input path="pwdCheck" type="password" class="form-control" id="floatingPassword" placeholder="Password" />
-	      <label for="floatingPassword">Password Check</label>
-	    </div>
-	    
-	    <form:errors path="lastName" class="errorMsg" />
-	    <div class="form-floating">
-	      <form:input path="lastName" type="text" class="form-control" id="floatingPassword" placeholder="Password" />
-	      <label for="floatingPassword">Last Name (姓氏)</label>
-	    </div>
-	    
-	    
-	    <form:errors path="firstName" class="errorMsg" />
-	    <div class="form-floating">
-	      <form:input path="firstName" type="text" class="form-control" id="floatingPassword" placeholder="Password" />
-	      <label for="floatingPassword">First Name (名字)</label>
-	    </div>
-	    
-	    
-	    <form:errors path="nickName" class="errorMsg" />
-	    <div class="form-floating">
-	      <form:input path="nickName" type="text" class="form-control" id="floatingPassword" placeholder="Password" />
-	      <label for="floatingPassword">Nick Name (暱稱)</label>
-	    </div>
-	    
-	    
-	    <div>
-	      <label for="floatingPassword">Gender 性別</label><br>
-	      <form:radiobutton path="gender" value="Male" label="男性" />
-	  	  <form:radiobutton path="gender" value="Female" label="女性" />
-	  	  <form:radiobutton path="gender" value="Other" label="其他" />
+	    <div class="form-check text-start my-3">
+	      <label class="form-check-label" for="flexCheckDefault">
+	        ${result}
+	      </label>
 	      <br>
+	      <label class="form-check-label" for="flexCheckDefault">
+	        <a href="${contextRoot}/user/login" ><button class="w-100 btn btn-lg btn-primary" type="button">回登入頁面</button></a>
+	      </label>
 	    </div>
-	    
-	    <div>
-      	  <label for="floatingPassword">是否有工作經驗 ? (若選有，請於下方請填入時間:整數不超過兩位、小數不超過一位的數字) </label>
-	      <form:errors path="workExperienceCheck" class="errorMsg" />
-      	  <br>
-		  <form:radiobutton path="workExperienceCheck" value="1" label="YES" />
-		  <form:radiobutton path="workExperienceCheck" value="0" label="NO" />
-    	</div>
-	    
-		<form:errors path="workExperience" class="errorMsg"/>
-    	  <div class="form-floating">
-          <form:input path="workExperience" type="text" class="form-control" id="floatingPassword" />
-          <label for="floatingPassword">Work Experience 工作經歷(年)</label> <br>
-        </div>
-
-	    <button class="btn btn-primary w-100 py-2" type="submit">Register</button>
 	    <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
 	  </form:form>
 	</main>

@@ -1,5 +1,6 @@
 package com.cclit.userdemo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.cclit.userdemo.bean.UserLoginForm;
 import com.cclit.userdemo.bean.UserRegisterForm;
+import com.cclit.userdemo.service.UserService;
 
 import jakarta.validation.Valid;
 
@@ -19,6 +21,8 @@ import jakarta.validation.Valid;
 @Controller
 public class UserController {
 	
+	@Autowired
+	private UserService userService;
 	
 	@GetMapping("/index")
 	public String index() {
@@ -68,18 +72,17 @@ public class UserController {
 	 */
 	@PostMapping("user/register")
 	public String register(@ModelAttribute("userRegisterForm") @Valid UserRegisterForm userRegisterForm,
-							BindingResult result) {
+							BindingResult result, Model model) {
 		
-		// check the password check meets the password
+		// 1. check the password check meets the password
 		if(!userRegisterForm.getPwd().equals(userRegisterForm.getPwdCheck())) {
 			result.rejectValue("pwdCheck", null, "密碼輸入不相符");
 		}
 		
-		
-		// work experience check
-		if(userRegisterForm.getWorkExperience() != null && userRegisterForm.getWorkExperienceCheck() != null) {
+		// 2. work experience check
+		if(userRegisterForm.getWorkExperienceCheck() != null) {
 			
-			if(userRegisterForm.getWorkExperience() == null) {
+			if(userRegisterForm.getWorkExperience() == null && userRegisterForm.getWorkExperienceCheck()) {
 				result.rejectValue("workExperience", null,"請填入工作經驗");
 			}
 			
@@ -87,16 +90,22 @@ public class UserController {
 			userRegisterForm.setWorkExperience(null);
 		}
 		
-		
-		// Check if the format errors
+		// 3. Check if the format errors
 		if(result.hasErrors()){
 			return "registerPage";
 		}
 		
+		// 4. register process : if userId is null means the account already exists
+		Long userId = userService.register(userRegisterForm);
 		
+		if(userId == null) {
+			model.addAttribute("accountAreadyExist", "此帳號已經存在");
+			return "registerPage";
+		}
 		
+		model.addAttribute("result", "會員註冊成功");
 		
-		return null;
+		return "registerResult";
 	}
 	
 	

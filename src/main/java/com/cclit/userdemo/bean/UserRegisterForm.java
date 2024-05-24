@@ -37,7 +37,7 @@ public class UserRegisterForm {
 	private Boolean workExperienceCheck;
 	
 	@Digits(integer = 2, fraction = 1, message = "請填入一個整數不超過兩位、小數不超過一位的數字")
-	private String workExperience;
+	private Double workExperience;
 
 	
 	/*
@@ -107,11 +107,11 @@ public class UserRegisterForm {
 		this.workExperienceCheck = workExperienceCheck;
 	}
 
-	public String getWorkExperience() {
+	public Double getWorkExperience() {
 		return workExperience;
 	}
 
-	public void setWorkExperience(String workExperience) {
+	public void setWorkExperience(Double workExperience) {
 		this.workExperience = workExperience;
 	}
 	
