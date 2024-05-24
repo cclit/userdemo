@@ -162,7 +162,14 @@
 	      <nav class="nav nav-masthead justify-content-center float-md-end">
 	        <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="#">Home</a>
 	        <a class="nav-link fw-bold py-1 px-0" href="#">Member Center</a>
+	        <c:choose>
+	        <c:when test="${sessionScope.login == null}">
 	        <a class="nav-link fw-bold py-1 px-0" href="${contextRoot}/user/login">Login</a>
+	        </c:when>
+	        <c:otherwise>
+	        <a class="nav-link fw-bold py-1 px-0" href="${contextRoot}/user/logout">Logout</a>
+	        </c:otherwise>
+	        </c:choose>
 	      </nav>
 	    </div>
 	  </header>

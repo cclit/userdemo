@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.cclit.userdemo.bean.User;
 import com.cclit.userdemo.bean.UserLoginForm;
 import com.cclit.userdemo.bean.UserRegisterForm;
 import com.cclit.userdemo.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 
@@ -41,18 +44,46 @@ public class UserController {
 	}
 	
 	/*
-	 *  member login
+	 *  user login
 	 */
 	@PostMapping("user/login")
 	public String login(@ModelAttribute("userLoginForm") @Valid UserLoginForm userLoginForm,
-						BindingResult result) {
+						BindingResult result, Model model, HttpServletRequest request) {
 		
+		// 1. check if the login input info format is wrong
 		if(result.hasErrors()) {
 			return "loginPage";
 		}
 
-		return null;
+		// 2. check if the user is already register
+		User user = userService.login(userLoginForm);
+		if(user == null) {
+			model.addAttribute("ErrorMsg", "找不到使用者，請註冊或重新登入");
+			return "loginPage";
+		}
+		
+		// 3. rewrite sessionID
+		request.changeSessionId();
+		HttpSession session = request.getSession();
+		
+		// 4. token setting
+		session.setAttribute("login", user);
+		
+		return "redirect:/index";
 	}
+	
+	
+	/*
+	 *  user logout
+	 */
+	@GetMapping("user/logout")
+	public String logout(HttpServletRequest request) {
+		
+		request.getSession().invalidate();
+		
+		return "redirect:/index";
+	}
+	
 	
 	
 	/*

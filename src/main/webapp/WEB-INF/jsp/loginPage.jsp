@@ -156,6 +156,10 @@
 	    <img class="mb-4" src="${contextRoot}/picture/bootstrap-logo.svg" alt="" width="72" height="57">
 	    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 	
+		<c:if test="${ErrorMsg != null }">
+			 <label class="errorMsg">${ErrorMsg}</label>
+		</c:if>
+		
 		<form:errors path="email" class="errorMsg" />
 	    <div class="form-floating">
 	      <form:input path="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />

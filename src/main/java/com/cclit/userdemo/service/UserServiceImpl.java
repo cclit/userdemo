@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import com.cclit.userdemo.bean.User;
+import com.cclit.userdemo.bean.UserLoginForm;
 import com.cclit.userdemo.bean.UserRegisterForm;
 import com.cclit.userdemo.dao.UserDao;
+import com.cclit.userdemo.exception.PasswordWrongException;
 
 /*
  *  user service interface implement class
@@ -44,8 +46,27 @@ public class UserServiceImpl implements UserService {
 		user.setWorkExperience(userRegisterForm.getWorkExperience());
 		
 		userDao.save(user);
-		
 		return user.getUserId();
+	}
+
+	@Override
+	public User login(UserLoginForm userLoginForm) {
+		
+		// 1. find the user
+		User user = userDao.findByEmail(userLoginForm.getEmail());
+		if(user == null) {
+			log.warn("無此使用者");
+			return null;
+		}
+		
+		// 2. compared the password
+		String hashedTypedPwd = DigestUtils.md5DigestAsHex(userLoginForm.getPwd().getBytes());
+		if(!hashedTypedPwd.equals(user.getPwd())) {
+			log.warn("使用者 {} 登入時密碼輸入錯誤",user.getEmail());
+			throw new PasswordWrongException(user.getEmail());
+		}
+		
+		return user;
 	}
 
 }
