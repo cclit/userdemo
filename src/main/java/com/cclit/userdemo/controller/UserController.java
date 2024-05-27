@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.cclit.userdemo.annotation.UserLogin;
 import com.cclit.userdemo.bean.User;
 import com.cclit.userdemo.bean.UserLoginForm;
 import com.cclit.userdemo.bean.UserRegisterForm;
@@ -139,6 +140,17 @@ public class UserController {
 		return "registerResult";
 	}
 	
+	@UserLogin
+	@GetMapping("user/memberCenter")
+	public String showMemberCenter(HttpServletRequest request, Model model) {
+		
+		// check if the member is login
+//		if(request.getSession().getAttribute("login") == null) {
+//			return "redirect:/user/login";
+//		}
+		
+		return "memberCenterPage";
+	}
 	
 
 }
