@@ -4,8 +4,10 @@ import com.cclit.userdemo.bean.User;
 import com.cclit.userdemo.bean.UserLoginForm;
 import com.cclit.userdemo.bean.UserRegisterForm;
 
-/*
+/**
  *  user service interface
+ *  
+ *  @author GalenLin
  */
 public interface UserService {
 	

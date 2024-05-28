@@ -3,18 +3,16 @@ package com.cclit.userdemo.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.cclit.userdemo.bean.User;
+import com.cclit.userdemo.bean.AdminUser;
+
 
 /**
- *  User repository
+ *  admin user repository
  *  
  *  @author GalenLin
  */
 @Repository
-public interface UserDao extends JpaRepository<User, Long> {
-	
-	public User findByEmail(String email);
-	
-	
+public interface AdminUserDao extends JpaRepository<AdminUser, Long> {
 
+	public AdminUser findByAccount(String account);	
 }

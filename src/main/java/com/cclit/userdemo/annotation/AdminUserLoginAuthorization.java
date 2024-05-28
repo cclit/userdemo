@@ -7,13 +7,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *  user login authorization aspect
+ *  admin user login authorization aspect
  *  
  *  @author GalenLin
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface UserLogin {
+public @interface AdminUserLoginAuthorization {
 
 }

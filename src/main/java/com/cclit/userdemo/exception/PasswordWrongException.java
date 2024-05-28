@@ -5,25 +5,38 @@ package com.cclit.userdemo.exception;
  */
 public class PasswordWrongException extends RuntimeException {
 
-	private String userEmail;
+	private String account;
+	
+	private String type;
 	
 	public PasswordWrongException() {
 		
 	}
 	
-	public PasswordWrongException(String userEmail) {
+	public PasswordWrongException(String type, String account) {
 		
-		this.userEmail = userEmail;
+		this.type = type;
+		this.account = account;
 	}
 
+	
+	
+	/*
+	 *  can only get the type
+	 */
+	public String getType() {
+		return type;
+	}
+	
 	
 	/*
 	 *  can only get the email
 	 */
-	public String getUserEmail() {
-		return userEmail;
+	public String getAccount() {
+		return account;
 	}
 
+	
 	
 	
 	

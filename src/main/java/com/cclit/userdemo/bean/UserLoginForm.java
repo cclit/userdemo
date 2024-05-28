@@ -3,8 +3,10 @@ package com.cclit.userdemo.bean;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-/*
+/**
  *  user login form
+ *  
+ *  @author GalenLin
  */
 public class UserLoginForm {
 

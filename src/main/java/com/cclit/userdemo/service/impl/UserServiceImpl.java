@@ -1,4 +1,4 @@
-package com.cclit.userdemo.service;
+package com.cclit.userdemo.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +11,12 @@ import com.cclit.userdemo.bean.UserLoginForm;
 import com.cclit.userdemo.bean.UserRegisterForm;
 import com.cclit.userdemo.dao.UserDao;
 import com.cclit.userdemo.exception.PasswordWrongException;
+import com.cclit.userdemo.service.UserService;
 
-/*
+/**
  *  user service interface implement class
+ *  
+ *  @author GalenLin
  */
 @Service
 public class UserServiceImpl implements UserService {
@@ -63,7 +66,7 @@ public class UserServiceImpl implements UserService {
 		String hashedTypedPwd = DigestUtils.md5DigestAsHex(userLoginForm.getPwd().getBytes());
 		if(!hashedTypedPwd.equals(user.getPwd())) {
 			log.warn("使用者 {} 登入時密碼輸入錯誤",user.getEmail());
-			throw new PasswordWrongException(user.getEmail());
+			throw new PasswordWrongException("user",user.getEmail());
 		}
 		
 		return user;
