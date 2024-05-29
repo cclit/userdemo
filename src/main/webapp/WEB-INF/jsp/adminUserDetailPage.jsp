@@ -8,7 +8,7 @@
 <html>
 <head><script src="${contextRoot}/js/color-modes.js"></script>
 <meta charset="UTF-8">
-<title>User Arrangement</title>
+<title>User Detail</title>
 <link href="${contextRoot}/css/bootstrap.min.css" rel="stylesheet">
 	<style>
       .bd-placeholder-img {
@@ -102,6 +102,7 @@
 	<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">會員管理</h1>
+        
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -114,96 +115,72 @@
         </div>
       </div>
       
-      <!-- search region -->
-      <div>
-        <form action="${contextRoot}/admin/user/search/account" method="GET">
-          <label for="">會員帳號關鍵字搜尋 : </label>
-          <input type="text" name="keyword">
-          <input type="submit" value="搜尋">
-        </form>
-      </div>
-      <div>
-        <form action="${contextRoot}/admin/user/search/name" method="GET">
-          <label for="">會員姓名關鍵字搜尋 : </label>
-          <input type="text" name="keyword">
-          <input type="submit" value="搜尋">
-        </form>
-      </div>
-      
-      <div>
-        <form action="${contextRoot}/admin/user/search/multicondition" method="GET">
-          <label for="">複合式條件查詢 : </label>
-          <label for="">會員帳號 : </label>
-          <input type="text" name="account">
-          <label for="">會員暱稱 : </label>
-          <input type="text" name="nickName">
-          <label for="">性別 : </label>
-          <select name="gender">
-          	<option value="">---</option>
-          	<option value="Male">男性</option>
-          	<option value="Female">女性</option>
-          	<option value="Other">其他</option>
-          </select>
-          <input type="submit" value="搜尋">
-        </form>
-      </div>
-      
-      
-      <!-- <h2>Section title</h2> -->
+      <!-- User detail -->
+
       <div class="table-responsive">
+       
+       <form:form modelAttribute="user" method="POST">
+       <c:if test="${updateInfo != null}">
+        <label>${updateInfo}</label>
+        </c:if>
         <table class="table table-striped table-sm">
           <thead>
             <tr>
-              <th scope="col">會員ID</th>
-              <th scope="col">會員姓名</th>
-              <th scope="col">會員暱稱</th>
-              <th scope="col">email</th>
-              <th scope="col">性別</th>
-              <th scope="col">最後編輯時間</th>
-              <th scope="col">刪除</th>
+              <td>欄位</td>
+              <td>資訊</td>
             </tr>
           </thead>
           <tbody>
-          	
-          	<c:forEach var="user" items="${page.content}">
           	<tr>
-              <td><a href="${contextRoot}/admin/user/detail/${user.userId}">${user.userId}</a></td>
-              <td>${user.lastName} ${user.firstName}</td>
-              <td>${user.nickName}</td>
-              <td>${user.email}</td>
-              <th>${user.gender}</th>
-              <td>${user.updateTime}</td>
-              <td>
-              	<form action="${contextRoot}/admin/user/delete" method="post" onsubmit="return confirm('確定要刪除 id 為 ${user.userId} 這筆資料嗎?');">
-						<input type="hidden" name="_method" value="delete" />
-						<input type="hidden" name="id" value="${user.userId}" />
-						<input type="submit" class="btn btn-danger" value="刪除" id="deleteSub" />
-				</form>
-              </td>
+          		<td>會員ID</td>
+          		<td><form:input path="userId" readonly="true"/></td>          		
             </tr>
-          	</c:forEach>
-           
+            <tr>
+          		<td>會員帳號/email</td>
+          		<td><form:input path="email" readonly="true"/></td>          		
+            </tr>
+            <tr>
+          		<td>會員姓氏</td>
+          		<td><form:input path="lastName"  readonly="true"/></td>          		
+            </tr>
+            <tr>
+          		<td>會員名字</td>
+          		<td><form:input path="firstName" readonly="true"/></td>          		
+            </tr>
+            <tr>
+          		<td>會員性別</td>
+          		<td><form:input path="gender" readonly="true"/></td>          		
+            </tr>
+            <tr>
+          		<td>會員暱稱</td>
+          		<td><form:input path="nickName" readonly="true" /></td>          		
+            </tr>
+             <tr>
+          		<td>是否有工作經驗</td>
+          		<td><form:radiobutton path="workExperienceCheck" value="1" label="YES" disabled="true" />
+					<form:radiobutton path="workExperienceCheck" value="0" label="NO" disabled="true"/></td>          		
+            </tr>
+             <tr>
+          		<td>工作經驗(年)</td>
+          		<td><form:input path="workExperience" readonly="true" /></td>          		
+            </tr>
+            <tr>
+          		<td>會員註冊時間</td>
+          		<td><form:input path="registerTime" disabled="true"/></td>          		
+            </tr>
+            <tr>
+          		<td>最後資訊修改時間</td>
+          		<td><form:input path="updateTime" disabled="true"/></td>          		
+            </tr>
+            
           </tbody>
+          
         </table>
-      </div>
-      
-      
-		<c:forEach var="pageNum" begin="1" end="${page.totalPages}">
-		<c:choose>
-		<c:when test = "${page.number+1 == pageNum}">
-			${pageNum}
-		</c:when>
-		<c:otherwise>
-			<a href="${contextRoot}/admin/user/arrangement?p=${pageNum}">${pageNum}</a>
-		</c:otherwise>
-		</c:choose>
-		
-		<c:if test ="${pageNum != page.totalPages}">
-		--
-		</c:if>
-		
-		</c:forEach>
+      	 <a href="${contextRoot}/admin/user/update/${user.userId}"><input type="button" value="修改會員資訊"></a>
+      	 <a href="${contextRoot}/admin/user/arrangement"><input type="button" value="回會員總覽"></a>
+        </form:form>
 
+      </div>
 
 	</main>
   </div>

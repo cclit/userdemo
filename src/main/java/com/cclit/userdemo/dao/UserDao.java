@@ -14,7 +14,6 @@ import com.cclit.userdemo.bean.User;
 public interface UserDao extends JpaRepository<User, Long> {
 	
 	public User findByEmail(String email);
-	
-	
+
 
 }

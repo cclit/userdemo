@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.cclit.userdemo.bean.AdminUserLoginForm;
 import com.cclit.userdemo.bean.UserLoginForm;
 import com.cclit.userdemo.exception.PasswordWrongException;
+import com.cclit.userdemo.exception.UserNotFoundException;
 
 /*
  *  System exception handler
@@ -40,5 +41,14 @@ public class UserDemoExceptionHandler {
 		
 		return null;
 	}
+	
+	@ExceptionHandler(UserNotFoundException.class)
+	public String UserNotFoundExceptionHandler(UserNotFoundException exception, Model model) {
+		
+		model.addAttribute("updateInfo", "找不到該使用者");
+		
+		return "adminUserDetailPage";
+	}
+	
 	
 }
