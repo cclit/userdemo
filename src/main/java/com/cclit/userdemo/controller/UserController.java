@@ -114,11 +114,17 @@ public class UserController {
 		// 2. work experience check
 		if(userRegisterForm.getWorkExperienceCheck() != null) {
 			
-			if(userRegisterForm.getWorkExperience() == null && userRegisterForm.getWorkExperienceCheck()) {
+			// work experience check : true, the workExperience must be filled
+			if(userRegisterForm.getWorkExperienceCheck() && userRegisterForm.getWorkExperience() == null) {
 				result.rejectValue("workExperience", null,"請填入工作經驗");
 			}
 			
+			if(!userRegisterForm.getWorkExperienceCheck()) {
+				userRegisterForm.setWorkExperience(null);
+			}
+			
 		} else {
+			userRegisterForm.setWorkExperienceCheck(false);
 			userRegisterForm.setWorkExperience(null);
 		}
 		

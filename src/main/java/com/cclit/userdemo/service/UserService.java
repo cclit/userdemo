@@ -26,4 +26,12 @@ public interface UserService {
 	
 	public Boolean updateUserByAdmin(AdminUserUpdateForm adminUserUpdateForm);
 	
+	public Page<User> findUsersByAccountKeyword(Integer pageNum, String keyword);
+	
+	public Page<User> findUsersByNameKeyword(Integer pageNum, String keyword);
+	
+	public Page<User> findUsersByAccountAndNickNameAndGender(Integer pageNum, String accountKeyword, String nickNameKeyword, String gender);
+	
+	public void deleteUserById(Long userId);
+	
 }

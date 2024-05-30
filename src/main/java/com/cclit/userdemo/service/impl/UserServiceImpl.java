@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService {
 		user.setLastName(userRegisterForm.getLastName());
 		user.setNickName(userRegisterForm.getNickName());
 		user.setGender(userRegisterForm.getGender());
+		user.setWorkExperienceCheck(userRegisterForm.getWorkExperienceCheck());
 		user.setWorkExperience(userRegisterForm.getWorkExperience());
 		
 		userDao.save(user);
@@ -140,6 +141,46 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return true;
+	}
+
+	@Override
+	public Page<User> findUsersByAccountKeyword(Integer pageNum, String keyword) {
+
+		Pageable pbg = PageRequest.of(pageNum - 1, 5, Sort.Direction.DESC, "userId");
+		
+		Page<User> page = userDao.findUsersByAccountKeyword(keyword, pbg);
+		
+		return page;
+	}
+
+	@Override
+	public Page<User> findUsersByNameKeyword(Integer pageNum, String keyword) {
+		
+		Pageable pbg = PageRequest.of(pageNum - 1, 5, Sort.Direction.DESC, "userId");
+		
+		Page<User> page = userDao.findUsersByNameKeyword(keyword, pbg);
+		
+		return page;
+	}
+
+	@Override
+	public Page<User> findUsersByAccountAndNickNameAndGender(Integer pageNum, 
+															 String accountKeyword,
+															 String nickNameKeyword, 
+															 String gender) {
+		
+		Pageable pbg = PageRequest.of(pageNum - 1, 5, Sort.Direction.DESC, "userId");
+		
+		Page<User> page = userDao.findUsersByAccountAdnNickNameAndGender(accountKeyword, nickNameKeyword, gender, pbg);
+		
+		return page;
+	}
+
+	@Override
+	public void deleteUserById(Long userId) {
+		
+		userDao.deleteById(userId);
+		
 	}
 
 

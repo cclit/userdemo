@@ -120,11 +120,8 @@
       
       <!-- search region -->
       <div>
-      	<c:if test="${errorMsg != null}">
-        <label class="errorMsg">${errorMsg}</label>
-        </c:if>
-        <c:if test="${info != null}">
-        <label class="errorMsg">${info}</label>
+      	<c:if test="${keywordEmpty != null}">
+        <label class="errorMsg">${keywordEmpty}</label>
         </c:if>
         <form action="${contextRoot}/admin/user/search/account" method="GET">
           <label for="">會員帳號關鍵字搜尋 : </label>

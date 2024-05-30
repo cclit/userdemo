@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import com.cclit.userdemo.bean.AdminUser;
 import com.cclit.userdemo.bean.AdminUserLoginForm;
 import com.cclit.userdemo.bean.AdminUserUpdateForm;
 import com.cclit.userdemo.bean.User;
+import com.cclit.userdemo.exception.EmptyObjectException;
 import com.cclit.userdemo.service.AdminUserService;
 import com.cclit.userdemo.service.UserService;
 
@@ -176,8 +178,80 @@ public class AdminUserController {
 	}
 	
 	
+	/*
+	 *  single condition keyword search
+	 */
+	@GetMapping("admin/user/search/{searchType}")
+	@AdminUserLoginAuthorization
+	public String keywordSearch(@PathVariable String searchType,
+								@RequestParam String keyword,
+								@RequestParam(name = "p", defaultValue = "1") Integer pageNum,
+								RedirectAttributes redirectAttributes,
+								Model model) {
+		
+		// 1. check if the keyword is empty
+		if(keyword.equals("")) {
+			redirectAttributes.addFlashAttribute("errorMsg", "請輸入查詢條件");
+			return "redirect:/admin/user/arrangement";
+		}
+		
+		// 2. check which search type is used and find the corresponding info
+		Page<User> searchResult = null;
+		if(searchType.equals("account")) {
+			searchResult = userService.findUsersByAccountKeyword(pageNum, keyword);
+		}
+		
+		if(searchType.equals("name")) {
+			searchResult = userService.findUsersByNameKeyword(pageNum, keyword);
+		}
+		
+		if(searchResult == null) {
+			throw new EmptyObjectException();
+		}
+		
+		model.addAttribute("page", searchResult);
+		
+		
+		return "userSearchResultPage";
+	}
 	
 	
+	/*
+	 *  multiple condition keyword search : account, nick name, and gender
+	 */
+	@GetMapping("admin/user/search/multicondition")
+	@AdminUserLoginAuthorization
+	public String multiConditionSearch(@RequestParam String accountKeyword,
+										@RequestParam String nickNameKeyword,
+										@RequestParam String gender,
+										@RequestParam(name = "p", defaultValue = "1") Integer pageNum,
+										Model model) {
+		
+		Page<User> searchResult = userService.findUsersByAccountAndNickNameAndGender(pageNum, accountKeyword, nickNameKeyword, gender);
+		
+		if(searchResult == null) {
+			throw new EmptyObjectException();
+		}
+		
+		model.addAttribute("page", searchResult);
+		
+		return "userSearchResultPage";
+	}
+	
+	
+	/*
+	 *  delete user by userId
+	 */
+	@DeleteMapping("/admin/user/delete")
+	@AdminUserLoginAuthorization
+	public String deleteUser(@RequestParam Long id, RedirectAttributes redirectAttributes) {
+	
+		userService.deleteUserById(id);
+		
+		redirectAttributes.addFlashAttribute("info", "使用者 id: " + id + "已被刪除!" );
+		
+		return "redirect:/admin/user/arrangement";
+	}
 
 	
 	
