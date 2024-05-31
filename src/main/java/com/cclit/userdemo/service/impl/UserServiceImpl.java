@@ -1,5 +1,8 @@
 package com.cclit.userdemo.service.impl;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -9,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -20,6 +24,9 @@ import com.cclit.userdemo.dao.UserDao;
 import com.cclit.userdemo.exception.PasswordWrongException;
 import com.cclit.userdemo.exception.UserNotFoundException;
 import com.cclit.userdemo.service.UserService;
+
+import io.micrometer.common.util.StringUtils;
+import jakarta.persistence.criteria.Predicate;
 
 /**
  *  user service interface implement class
@@ -163,25 +170,62 @@ public class UserServiceImpl implements UserService {
 		return page;
 	}
 
+//	@Override
+//	public Page<User> findUsersByAccountAndNickNameAndGender(Integer pageNum, 
+//															 String accountKeyword,
+//															 String nickNameKeyword, 
+//															 String gender) {
+//		
+//		Pageable pbg = PageRequest.of(pageNum - 1, 5, Sort.Direction.DESC, "userId");
+//		
+//		Page<User> page = userDao.findUsersByAccountAdnNickNameAndGender(accountKeyword, nickNameKeyword, gender, pbg);
+//		
+//		return page;
+//	}
+	
 	@Override
 	public Page<User> findUsersByAccountAndNickNameAndGender(Integer pageNum, 
-															 String accountKeyword,
-															 String nickNameKeyword, 
-															 String gender) {
+			 String accountKeyword,
+			 String nickNameKeyword, 
+			 String gender) {
 		
 		Pageable pbg = PageRequest.of(pageNum - 1, 5, Sort.Direction.DESC, "userId");
 		
-		Page<User> page = userDao.findUsersByAccountAdnNickNameAndGender(accountKeyword, nickNameKeyword, gender, pbg);
+		Specification<User> specification = (root, query, cb) -> {
+			
+			// put the search conditions in the List
+			List<Predicate> predicateList = new ArrayList<>();
+			
+			if(!StringUtils.isEmpty(accountKeyword)) {
+				Predicate accountPredicate = cb.like(root.get("email"), "%" + accountKeyword + "%");
+				predicateList.add(accountPredicate);
+			}
+			
+			if(!StringUtils.isEmpty(nickNameKeyword)) {
+				Predicate nickNamePredicate = cb.like(root.get("nickName"), "%" +nickNameKeyword + "%");
+				predicateList.add(nickNamePredicate);
+			}
+			
+			if(!StringUtils.isEmpty(gender)) {
+				Predicate genderPredicate = cb.equal(root.get("gender"), gender);
+				predicateList.add(genderPredicate);
+			}
+			
+			query.where(cb.and(predicateList.toArray(new Predicate[predicateList.size()])));
+			return query.getRestriction();
+			
+		};
 		
-		return page;
+		return userDao.findAll(specification, pbg);
 	}
 
+	
+	
 	@Override
 	public void deleteUserById(Long userId) {
 		
 		userDao.deleteById(userId);
 		
 	}
-
 
 }

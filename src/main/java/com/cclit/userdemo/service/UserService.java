@@ -1,6 +1,7 @@
 package com.cclit.userdemo.service;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 
 import com.cclit.userdemo.bean.AdminUserUpdateForm;
 import com.cclit.userdemo.bean.User;
@@ -33,5 +34,6 @@ public interface UserService {
 	public Page<User> findUsersByAccountAndNickNameAndGender(Integer pageNum, String accountKeyword, String nickNameKeyword, String gender);
 	
 	public void deleteUserById(Long userId);
+	
 	
 }
