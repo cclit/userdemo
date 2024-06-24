@@ -2,8 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
+<c:set var="contextRoot" value="${pageContext.request.contextPath}" />
 <html>
-<head>
+<head><script src="${contextRoot}/js/color-modes.js"></script>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -11,7 +12,6 @@
     <meta name="generator" content="Hugo 0.122.0">
 	<meta charset="UTF-8">
 	
-	<c:set var="contextRoot" value="${pageContext.request.contextPath}" />
 	<title>Index</title>
 	
 	
@@ -19,6 +19,13 @@
 	
 	
 	<style>
+	
+	/* 直接引用 Boostrap 設定會有版面跑偏的狀況，加上此行後版面即可恢復正常高度*/
+		html, body {
+	    	height: 100%;
+		}
+	
+	
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -95,6 +102,7 @@
       .bd-mode-toggle .dropdown-menu .active .bi {
         display: block !important;
       }
+      
     </style>
 	
 	<!-- Custom styles for this template -->
