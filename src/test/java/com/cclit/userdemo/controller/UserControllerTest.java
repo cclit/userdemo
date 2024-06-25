@@ -30,7 +30,7 @@ public class UserControllerTest {
 
 	
 	@Test
-	public void userLoginTest() throws Exception {
+	public void userLoginSucessFulTest() throws Exception {
 		
 		UserLoginForm userLoginForm = new UserLoginForm();
 		userLoginForm.setEmail("galen@cclit.com");
@@ -39,14 +39,33 @@ public class UserControllerTest {
 		RequestBuilder RequestBuilder = MockMvcRequestBuilders
 				.post("/user/login")
 				.contentType(MediaType.APPLICATION_JSON)
-				.requestAttr("userLoginForm", userLoginForm);
+				.flashAttr("userLoginForm", userLoginForm);
+				
 		
 		mockMvc.perform(RequestBuilder)
 		.andDo(print())
-		.andExpect(status().is(200));
-//		.andExpect(redirectedUrl("/index")) // Actual : null
-//		.andExpect(view().name("redirect:/index"));
+		.andExpect(status().is(302))
+		.andExpect(redirectedUrl("/index"))
+		.andExpect(view().name("redirect:/index"));
+	}
+	
+	
+	@Test
+	public void userLoginFailTest() throws Exception {
 		
+		UserLoginForm userLoginForm = new UserLoginForm();
+		userLoginForm.setEmail("galen@cclit.com");
+		userLoginForm.setPwd("1234567"); // wrong pwd
+		
+		RequestBuilder RequestBuilder = MockMvcRequestBuilders
+				.post("/user/login")
+				.contentType(MediaType.APPLICATION_JSON)
+				.flashAttr("userLoginForm", userLoginForm);
+		
+		mockMvc.perform(RequestBuilder)
+		.andDo(print())
+		.andExpect(status().is(200))
+		.andExpect(view().name("loginPage"));
 		
 	}
 	
