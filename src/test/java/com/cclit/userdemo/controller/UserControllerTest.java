@@ -36,13 +36,13 @@ public class UserControllerTest {
 		userLoginForm.setEmail("galen@cclit.com");
 		userLoginForm.setPwd("Lkk8899");
 		
-		RequestBuilder RequestBuilder = MockMvcRequestBuilders
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post("/user/login")
 				.contentType(MediaType.APPLICATION_JSON)
 				.flashAttr("userLoginForm", userLoginForm);
 				
 		
-		mockMvc.perform(RequestBuilder)
+		mockMvc.perform(requestBuilder)
 		.andDo(print())
 		.andExpect(status().is(302))
 		.andExpect(redirectedUrl("/index"))
@@ -57,12 +57,12 @@ public class UserControllerTest {
 		userLoginForm.setEmail("galen@cclit.com");
 		userLoginForm.setPwd("1234567"); // wrong pwd
 		
-		RequestBuilder RequestBuilder = MockMvcRequestBuilders
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post("/user/login")
 				.contentType(MediaType.APPLICATION_JSON)
 				.flashAttr("userLoginForm", userLoginForm);
 		
-		mockMvc.perform(RequestBuilder)
+		mockMvc.perform(requestBuilder)
 		.andDo(print())
 		.andExpect(status().is(200))
 		.andExpect(view().name("loginPage"));
@@ -75,10 +75,10 @@ public class UserControllerTest {
 	@Test
 	public void showMemberCenterWithoutLoginTest() throws Exception {
 		
-		RequestBuilder RequestBuilder = MockMvcRequestBuilders
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
 			.get("/user/memberCenter");
 		
-		mockMvc.perform(RequestBuilder)
+		mockMvc.perform(requestBuilder)
 			.andExpect(status().is(302))
 			.andExpect(view().name("memberCenterPage"))
 			.andExpect(redirectedUrl("/user-demo/user/login"));
@@ -92,11 +92,11 @@ public class UserControllerTest {
 		
 		User user = userService.findUserById(Long.valueOf("1"));
 		
-		RequestBuilder RequestBuilder = MockMvcRequestBuilders
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
 			.get("/user/memberCenter")
 			.sessionAttr("login", user);
 		
-		mockMvc.perform(RequestBuilder)
+		mockMvc.perform(requestBuilder)
 			.andExpect(status().is(200))
 			.andExpect(view().name("memberCenterPage"));
 		
