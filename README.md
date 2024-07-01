@@ -18,7 +18,7 @@
 1. 首先先將程式碼下載到本機指定的資料夾中，執行以下指令或是直接按右上方的下載按鈕
 
 ```
-git clone https://github.com/BreezeWhite/THSR-Ticket.git
+git clone https://github.com/cclit/userdemo.git
 ```
 
 2. 以 Java IDE 將其以 Maven 專案匯入，並更新此專案，使其下載相關的套件 (dependency)
